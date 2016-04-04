@@ -19,8 +19,8 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-#define dID 0x5c
-#define dI2C "/dev/i2c-1"
+#define DEV_ID 0x5c
+#define DEV_PATH "/dev/i2c-1"
 #define WHO_AM_I 0x0F
 #define CTRL_REG1 0x20
 #define CTRL_REG2 0x21
@@ -47,16 +47,16 @@ int main(void)
     uint8_t status = 0 ;
 
     /* open i2c comms */
-    if ((fd = open (dI2C, O_RDWR)) < 0)
+    if ((fd = open (DEV_PATH, O_RDWR)) < 0)
     {
-      perror("Unable to open /dev/i2c-1");
+      perror("Unable to open i2c device");
       exit (1) ;
     }
 
     /* configure i2c slave */
-    if (ioctl (fd, I2C_SLAVE, dID) < 0)
+    if (ioctl (fd, I2C_SLAVE, DEV_ID) < 0)
     {
-      perror("Unable to configure i2c slave");
+      perror("Unable to configure i2c slave device");
       close (fd) ;
       exit (1) ;
     }
