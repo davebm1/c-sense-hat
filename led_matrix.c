@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 	exit(EXIT_FAILURE);
     }
 
-    /* read fixed screen info for the led frame buffer */
+    /* read fixed screen info for the open device */
     if (ioctl(fbfd, FBIOGET_FSCREENINFO, &fix_info) == -1) {
         perror("Error (call to 'ioctl')");
         close(fbfd);
