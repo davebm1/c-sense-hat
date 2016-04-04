@@ -1,3 +1,5 @@
 # Raspberry Pi Sense-HAT add-on board
 
-pressure.c  : code to read pressure and temperature from the LPS25H pressure sensor.
+## C language demonstration code
+
+pressure.c  :get pressure and temperature readings from the LPS25H pressure sensor.
