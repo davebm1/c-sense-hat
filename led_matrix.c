@@ -78,7 +78,15 @@ int main(int argc, char *argv[])
 	usleep(25000);
     }
 
-    sleep(1);
+    /* flash white */
+    for (i = 0 ; i < 3 ; i++)
+    {
+        usleep(250000);
+	memset(map, 0xFF, FILESIZE);
+	usleep(250000);
+	memset(map, 0, FILESIZE);
+    }
+    usleep(250000);
 
     /* clear the led matrix */
     memset(map, 0, FILESIZE);
