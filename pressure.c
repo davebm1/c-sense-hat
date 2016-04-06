@@ -30,6 +30,8 @@
 #define TEMP_OUT_L 0x2B
 #define TEMP_OUT_H 0x2C
 
+void delay(int);
+
 int main(void)
 {
     int fd = 0;
@@ -78,7 +80,7 @@ int main(void)
 
     /* Wait until the measurement is complete */
     do {
-	usleep(25000);		/* 25 milliseconds) */
+	delay(25);		/* 25 milliseconds */
 	status = i2c_smbus_read_byte_data(fd, CTRL_REG2);
     }
     while (status != 0);
@@ -110,4 +112,9 @@ int main(void)
     close(fd);
 
     return (0);
+}
+
+void delay(int t)
+{
+    usleep(t * 1000);
 }
