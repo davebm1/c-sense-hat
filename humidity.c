@@ -2,13 +2,13 @@
  *  C code to read humidity and temperature from the
  *  Raspberry Pi Sense HAT add-on board (HTS221 sensor)
  *
- *  sudo raspi-config --> advanced options --> enable i2c
+ *  sudo raspi-config --> interfacing options --> enable i2c
  *
- *  sudo apt-get install libi2c-dev i2c-tools
+ *  sudo apt install libi2c-dev
  *
- *  Then build with:
+ *  Build with:  gcc -Wall -O2 humidity.c -o humidity -li2c
  *
- *       gcc -Wall humidity.c -o humidity
+ *  Tested with:  Raspbian GNU/Linux 10 (buster) / Raspberry Pi 3 B+
  *
  */
 
@@ -18,6 +18,8 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include <linux/i2c-dev.h>
+#include <i2c/smbus.h>
+#include <sys/ioctl.h>
 
 #define DEV_PATH "/dev/i2c-1"
 #define DEV_ID 0x5F
