@@ -2,6 +2,8 @@
 
 ### C language demonstration code
 
+### Tested with: Raspbian GNU/Linux 10 (buster) / Raspberry Pi 3 B+
+
 
 pressure.c  : Get pressure and temperature readings from the LPS25H pressure sensor.
 
