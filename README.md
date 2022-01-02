@@ -2,8 +2,9 @@
 
 ### C language demonstration code
 
-### Tested with: Raspbian GNU/Linux 10 (buster) / Raspberry Pi 3 B+
+### Tested with:  Sense HAT v1.0 / Raspberry Pi 3 B+ / Raspbian GNU/Linux 10 (buster)
 
+To build, type:   make
 
 pressure.c : Get pressure and temperature readings from the LPS25H pressure sensor.
 

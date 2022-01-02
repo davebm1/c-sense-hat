@@ -6,9 +6,10 @@
  *
  *  sudo apt install libi2c-dev
  *
- *  Build with:  gcc -Wall -O2 pressure.c -o pressure -li2c
+ *  Build with:   gcc -Wall -O2 pressure.c -o pressure -li2c
+ *                or just 'make'
  *
- *  Tested with:  Raspbian GNU/Linux 10 (buster) / Raspberry Pi 3 B+
+ *  Tested with:  Sense HAT v1.0 / Raspberry Pi 3 B+ / Raspbian GNU/Linux 10 (buster)
  *
  */
 
@@ -51,23 +52,23 @@ int main(void)
     uint8_t status = 0;
 
     /* open i2c comms */
-    if((fd = open(DEV_PATH, O_RDWR)) < 0) {
-        perror("Unable to open i2c device");
-        exit(1);
+    if ((fd = open(DEV_PATH, O_RDWR)) < 0) {
+	perror("Unable to open i2c device");
+	exit(1);
     }
 
     /* configure i2c slave */
-    if(ioctl(fd, I2C_SLAVE, DEV_ID) < 0) {
-        perror("Unable to configure i2c slave device");
-        close(fd);
-        exit(1);
+    if (ioctl(fd, I2C_SLAVE, DEV_ID) < 0) {
+	perror("Unable to configure i2c slave device");
+	close(fd);
+	exit(1);
     }
 
     /* check we are who we should be */
-    if(i2c_smbus_read_byte_data(fd, WHO_AM_I) != 0xBD) {
-        printf("%s\n", "who_am_i error");
-        close(fd);
-        exit(1);
+    if (i2c_smbus_read_byte_data(fd, WHO_AM_I) != 0xBD) {
+	printf("%s\n", "who_am_i error");
+	close(fd);
+	exit(1);
     }
 
     /* Power down the device (clean start) */
@@ -83,9 +84,9 @@ int main(void)
 
     /* Wait until the measurement is complete */
     do {
-        delay(25);      /* 25 milliseconds */
-        status = i2c_smbus_read_byte_data(fd, CTRL_REG2);
-    } while(status != 0);
+	delay(25);		/* 25 milliseconds */
+	status = i2c_smbus_read_byte_data(fd, CTRL_REG2);
+    } while (status != 0);
 
     /* Read the temperature measurement (2 bytes to read) */
     temp_out_l = i2c_smbus_read_byte_data(fd, TEMP_OUT_L);

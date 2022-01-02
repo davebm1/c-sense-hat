@@ -5,8 +5,9 @@
  *  Uses the mmap method to map the led device into memory
  *
  *  Build with:  gcc -Wall -O2 led_matrix.c -o led_matrix
+ *               or just 'make'
  *
- *  Tested with:  Raspbian GNU/Linux 10 (buster) / Raspberry Pi 3 B+
+ *  Tested with:  Sense HAT v1.0 / Raspberry Pi 3 B+ / Raspbian GNU/Linux 10 (buster)
  *
  */
 
@@ -60,7 +61,8 @@ int main(void)
     }
 
     /* map the led frame buffer device into memory */
-    map = mmap(NULL, FILESIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fbfd, 0);
+    map =
+	mmap(NULL, FILESIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fbfd, 0);
     if (map == MAP_FAILED) {
 	close(fbfd);
 	perror("Error mmapping the file");

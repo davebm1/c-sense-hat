@@ -7,8 +7,9 @@
  *  sudo apt install libi2c-dev
  *
  *  Build with:  gcc -Wall -O2 humidity.c -o humidity -li2c
+ *               or just 'make'
  *
- *  Tested with:  Raspbian GNU/Linux 10 (buster) / Raspberry Pi 3 B+
+ *  Tested with:  Sense HAT v1.0 / Raspberry Pi 3 B+ / Raspbian GNU/Linux 10 (buster)
  *
  */
 
@@ -90,8 +91,7 @@ int main(void)
     do {
 	delay(25);		/* 25 milliseconds */
 	status = i2c_smbus_read_byte_data(fd, CTRL_REG2);
-    }
-    while (status != 0);
+    } while (status != 0);
 
     /* Read calibration temperature LSB (ADC) data
      * (temperature calibration x-data for two points)

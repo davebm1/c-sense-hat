@@ -1,0 +1,6 @@
+*.o
+pressure
+led_matrix
+humidity
+a.out
+*.c~
