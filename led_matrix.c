@@ -11,17 +11,17 @@
  *
  */
 
+#include <fcntl.h>
+#include <linux/fb.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <stdint.h>
 #include <string.h>
-#include <linux/fb.h>
 #include <sys/ioctl.h>
+#include <sys/mman.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #define FILEPATH "/dev/fb1"
 #define NUM_WORDS 64
@@ -31,8 +31,7 @@
 
 void delay(int);
 
-int main(void)
-{
+int main(void) {
     int i;
     int fbfd;
     uint16_t *map;
@@ -42,31 +41,31 @@ int main(void)
     /* open the led frame buffer device */
     fbfd = open(FILEPATH, O_RDWR);
     if (fbfd == -1) {
-	perror("Error (call to 'open')");
-	exit(EXIT_FAILURE);
+        perror("Error (call to 'open')");
+        exit(EXIT_FAILURE);
     }
 
     /* read fixed screen info for the open device */
     if (ioctl(fbfd, FBIOGET_FSCREENINFO, &fix_info) == -1) {
-	perror("Error (call to 'ioctl')");
-	close(fbfd);
-	exit(EXIT_FAILURE);
+        perror("Error (call to 'ioctl')");
+        close(fbfd);
+        exit(EXIT_FAILURE);
     }
 
     /* now check the correct device has been found */
     if (strcmp(fix_info.id, "RPi-Sense FB") != 0) {
-	printf("%s\n", "Error: RPi-Sense FB not found");
-	close(fbfd);
-	exit(EXIT_FAILURE);
+        printf("%s\n", "Error: RPi-Sense FB not found");
+        close(fbfd);
+        exit(EXIT_FAILURE);
     }
 
     /* map the led frame buffer device into memory */
     map =
-	mmap(NULL, FILESIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fbfd, 0);
+        mmap(NULL, FILESIZE, PROT_READ | PROT_WRITE, MAP_SHARED, fbfd, 0);
     if (map == MAP_FAILED) {
-	close(fbfd);
-	perror("Error mmapping the file");
-	exit(EXIT_FAILURE);
+        close(fbfd);
+        perror("Error mmapping the file");
+        exit(EXIT_FAILURE);
     }
 
     /* set a pointer to the start of the memory area */
@@ -77,16 +76,16 @@ int main(void)
 
     /* light it up! */
     for (i = 0; i < NUM_WORDS; i++) {
-	*(p + i) = RGB565_RED;
-	delay(25);
+        *(p + i) = RGB565_RED;
+        delay(25);
     }
 
     /* flash white */
     for (i = 0; i < 3; i++) {
-	delay(250);
-	memset(map, 0xFF, FILESIZE);
-	delay(250);
-	memset(map, 0, FILESIZE);
+        delay(250);
+        memset(map, 0xFF, FILESIZE);
+        delay(250);
+        memset(map, 0, FILESIZE);
     }
     delay(250);
 
@@ -95,14 +94,13 @@ int main(void)
 
     /* un-map and close */
     if (munmap(map, FILESIZE) == -1) {
-	perror("Error un-mmapping the file");
+        perror("Error un-mmapping the file");
     }
     close(fbfd);
 
     return 0;
 }
 
-void delay(int t)
-{
+void delay(int t) {
     usleep(t * 1000);
 }
